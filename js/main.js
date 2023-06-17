@@ -29,25 +29,9 @@ app.run(($rootScope) => {
     };
 });
 
-app.directive('navbar', () => {
-    return {
-        restrict: 'E',
-        templateUrl: '../navbar/navbar.html',
-        controller: () => {
-            console.log('load navbar');
-        },
-    };
-});
+app.directive('navbar', directive.navbar);
 
-app.directive('sideBar', () => {
-    return {
-        restrict: 'E',
-        templateUrl: '../sidebar/sidebar.html',
-        controller: () => {
-            console.log('load sideBar');
-        },
-    };
-});
+app.directive('sideBar', directive.sideBar);
 
 app.directive('datatable', directive.datatable);
 

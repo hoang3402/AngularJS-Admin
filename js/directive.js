@@ -221,3 +221,23 @@ export function datatable($routeParams) {
         },
     };
 }
+
+export function navbar() {
+    return {
+        restrict: 'E',
+        templateUrl: '../navbar/navbar.html',
+        controller: () => {
+            console.log('load navbar');
+        },
+    };
+}
+
+export function sideBar() {
+    return {
+        restrict: 'E',
+        templateUrl: '../sidebar/sidebar.html',
+        controller: () => {
+            console.log('load sideBar');
+        },
+    };
+}
