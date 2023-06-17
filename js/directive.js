@@ -3,7 +3,7 @@ import { DOMAIN } from './main';
 export function createMovie() {
     return {
         restrict: 'E',
-        templateUrl: '../table/editAll.html',
+        templateUrl: './table/editAll.html',
         controller: ($scope) => {
             console.log('load createMovie');
 
@@ -21,7 +21,7 @@ export function createMovie() {
 export function editTable() {
     return {
         restrict: 'E',
-        templateUrl: '../table/editTable.html',
+        templateUrl: './table/editTable.html',
         controller: ($scope, $routeParams, $http, $rootScope) => {
             console.log('EditTable');
             $scope.nameTable = $routeParams.name;
@@ -95,7 +95,7 @@ export function editTable() {
 export function create() {
     return {
         restrict: 'E',
-        templateUrl: '../table/editTable.html',
+        templateUrl: './table/editTable.html',
         controller: ($scope, $routeParams, $http, $rootScope) => {
             $scope.nameTable = $routeParams.name;
 
@@ -152,7 +152,7 @@ export function create() {
 export function datatable($routeParams) {
     return {
         restrict: 'E',
-        templateUrl: '../table/table.html',
+        templateUrl: './table/table.html',
         controller: ($scope, $http) => {
             console.log('Datatable');
             $scope.nameTable = $routeParams.name;
@@ -225,7 +225,7 @@ export function datatable($routeParams) {
 export function navbar() {
     return {
         restrict: 'E',
-        templateUrl: '../navbar/navbar.html',
+        templateUrl: './navbar/navbar.html',
         controller: () => {
             console.log('load navbar');
         },
@@ -235,7 +235,7 @@ export function navbar() {
 export function sideBar() {
     return {
         restrict: 'E',
-        templateUrl: '../sidebar/sidebar.html',
+        templateUrl: './sidebar/sidebar.html',
         controller: () => {
             console.log('load sideBar');
         },
