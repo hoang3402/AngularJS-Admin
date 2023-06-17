@@ -1,91 +1,107 @@
 <!-- DataTables -->
 <link
-	rel="stylesheet"
-	href="./plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"
+    rel="stylesheet"
+    href="./plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"
 />
 <link
-	rel="stylesheet"
-	href="./plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+    rel="stylesheet"
+    href="./plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
 />
 <link
-	rel="stylesheet"
-	href="./plugins/datatables-buttons/css/buttons.bootstrap4.min.css"
+    rel="stylesheet"
+    href="./plugins/datatables-buttons/css/buttons.bootstrap4.min.css"
 />
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<div class="container-fluid">
-		<div class="row mb-2">
-			<div class="col-sm-6">
-				<h1>DataTable of {{nameTable}}</h1>
-			</div>
-			<div class="col-sm-6">
-				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="#">Home</a></li>
-					<li class="breadcrumb-item active">DataTable of {{nameTable}}</li>
-				</ol>
-			</div>
-		</div>
-	</div>
-	<!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>DataTable of {{nameTable}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">
+                        DataTable of {{nameTable}}
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">DataTable with default features</h3>
-					</div>
-					<!-- /.card-header -->
-					<div class="card-body">
-						<table
-							id="example1"
-							class="table table-bordered table-striped table-hover"
-						>
-							<div class="text-center">
-								<a
-									class="btn btn-primary text mb-2"
-									ng-href="#!create/{{nameTable}}"
-								>
-									Create new
-								</a>
-							</div>
-							<div class="text-center">
-								<a class="btn btn-primary text mb-2" ng-href="#!create-movie">
-									Create new movies
-								</a>
-							</div>
-							<thead>
-								<tr>
-									<!-- <th ng-repeat="(key, value) in data[0]">{{key}}</th> -->
-								</tr>
-							</thead>
-							<tbody>
-								<!-- <tr ng-repeat="item in data">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            DataTable with default features
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table
+                            id="example1"
+                            class="table table-bordered table-striped table-hover"
+                        >
+                            <div class="text-center">
+                                <a
+                                    class="btn btn-primary text mb-2"
+                                    ng-href="#!create/{{nameTable}}"
+                                >
+                                    Create new
+                                </a>
+                            </div>
+                            <div class="text-center">
+                                <a
+                                    class="btn btn-primary text mb-2"
+                                    ng-href="#!create-movie"
+                                >
+                                    Create new movies
+                                </a>
+                            </div>
+                            <thead>
+                                <tr>
+                                    <!-- <th ng-repeat="(key, value) in data[0]">{{key}}</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr ng-repeat="item in data">
 									<td ng-repeat="(key, value) in item">{{value}}</td>
 								</tr> -->
-							</tbody>
-							<tfoot>
-								<tr>
-									<!-- <th ng-repeat="(key, value) in data[0]">{{key}}</th> -->
-								</tr>
-							</tfoot>
-						</table>
-					</div>
-					<!-- /.card-body -->
-				</div>
-				<!-- /.card -->
-			</div>
-			<!-- /.col -->
-		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /.container-fluid -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <!-- <th ng-repeat="(key, value) in data[0]">{{key}}</th> -->
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<script>
+    handleTdClick = function (name, item) {
+        console.log(`Edit on ${name} with ${item.id}`);
+        var currentUrl = window.location.href;
+        var newUrl = currentUrl.replace(`/${name}`, `/${name}/${item.id}`);
+        window.location.href = newUrl;
+    };
+</script>
 
 <!-- DataTables  & Plugins -->
 <script src="./plugins/datatables/jquery.dataTables.min.js"></script>
