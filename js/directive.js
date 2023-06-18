@@ -4,7 +4,7 @@ export function createMovie() {
     return {
         restrict: 'E',
         templateUrl: './table/editAll.html',
-        controller: ($scope, $http, $timeout) => {
+        controller: ($scope, $http) => {
             console.log('load createMovie');
             $scope.currentGenres = [];
             $scope.status = false;
