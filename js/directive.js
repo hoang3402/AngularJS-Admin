@@ -4,9 +4,9 @@ export function createMovie() {
     return {
         restrict: 'E',
         templateUrl: './table/editAll.html',
-        controller: ($scope, $http) => {
+        controller: ($scope, $http, $timeout) => {
             console.log('load createMovie');
-
+            $scope.currentGenres = [];
             // Get genres
             $http({
                 method: 'GET',
@@ -25,8 +25,19 @@ export function createMovie() {
                 window.location.href = newUrl;
             };
 
-            $scope.updateImgUrl = () => {
-            }
+            $('#type').on("select2:select", function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                var item = $scope.genres.find(i => { return i.name == optionValue })
+                $scope.currentGenres.push(item.id)
+            });
+
+            $('#type').on('select2:unselect', function (e) {
+                var unselectedOption = e.params.data;
+                var unselectedOptionId = unselectedOption.id;
+                var item = $scope.genres.find(i => { return i.name == unselectedOptionId })
+                $scope.currentGenres.splice($scope.currentGenres.indexOf(item.id), 1)
+            });
         },
     };
 }
