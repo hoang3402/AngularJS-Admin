@@ -4,8 +4,17 @@ export function createMovie() {
     return {
         restrict: 'E',
         templateUrl: './table/editAll.html',
-        controller: ($scope) => {
+        controller: ($scope, $http) => {
             console.log('load createMovie');
+
+            $http({
+                method: 'GET',
+                url: `${DOMAIN}Genre`
+            }).then((res) => {
+                $scope.genres = res.data;
+            }, (res) => {
+
+            })
 
             $scope.handleBack = () => {
                 var currentUrl = window.location.href;
@@ -185,8 +194,7 @@ export function datatable($routeParams) {
                             );
                         tr.attr(
                             'onclick',
-                            `handleTdClick('${
-                                $scope.nameTable
+                            `handleTdClick('${$scope.nameTable
                             }',${JSON.stringify(item)})`
                         );
                         tr.append(td);
@@ -217,7 +225,7 @@ export function datatable($routeParams) {
                     .appendTo('#example1_wrapper .col-md-6:eq(0)');
             };
 
-            $scope.handleCreate = () => {};
+            $scope.handleCreate = () => { };
         },
     };
 }
