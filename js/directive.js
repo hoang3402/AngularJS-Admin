@@ -7,6 +7,7 @@ export function createMovie() {
         controller: ($scope, $http, $timeout) => {
             console.log('load createMovie');
             $scope.currentGenres = [];
+            $scope.status = false;
             // Get genres
             $http({
                 method: 'GET',
@@ -37,6 +38,16 @@ export function createMovie() {
                 var unselectedOptionId = unselectedOption.id;
                 var item = $scope.genres.find(i => { return i.name == unselectedOptionId })
                 $scope.currentGenres.splice($scope.currentGenres.indexOf(item.id), 1)
+            });
+
+            $('#status').on("select2:select", function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                if (optionValue === 'Complete') {
+                    $scope.status = true;
+                } else {
+                    $scope.status = false;
+                }
             });
         },
     };
