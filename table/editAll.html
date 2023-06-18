@@ -42,12 +42,13 @@
 		<div class="row">
 			<div class="col-md-6">
 				<label for="name">Name movie</label>
-				<input type="text" class="form-control" />
+				<input type="text" class="form-control" ng-model="title" />
 				<label>Description</label>
 				<textarea
 					class="form-control"
 					rows="3"
 					placeholder="Enter description..."
+					ng-model="description"
 				></textarea>
 				<label for="genre">Genres</label>
 				<select
