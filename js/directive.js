@@ -7,6 +7,7 @@ export function createMovie() {
         controller: ($scope, $http) => {
             console.log('load createMovie');
 
+            // Get genres
             $http({
                 method: 'GET',
                 url: `${DOMAIN}Genre`
@@ -23,6 +24,9 @@ export function createMovie() {
 
                 window.location.href = newUrl;
             };
+
+            $scope.updateImgUrl = () => {
+            }
         },
     };
 }

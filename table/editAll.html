@@ -47,7 +47,7 @@
 				<textarea
 					class="form-control"
 					rows="3"
-					placeholder="Enter..."
+					placeholder="Enter description..."
 				></textarea>
 				<label for="genre">Genres</label>
 				<select
@@ -65,11 +65,26 @@
 				</select>
 			</div>
 			<div class="col-md-6">
-				<div style="background-color: red; width: 100%; height: 100%"></div>
+				<label for="imageurl">Image url</label>
+				<input
+					ng-model="imageurl"
+					type="url"
+					class="form-control"
+					ng-change="updateImgUrl()"
+				/>
+				<div id="image" class="mt-2" style="height: 77%; width: 100%">
+					<img
+						style="width: 100%"
+						data-ng-src="{{imageurl}}"
+						alt="preview input imageurl"
+					/>
+				</div>
 			</div>
 		</div>
-		<button class="btn btn-primary" ng-click="handleSave()">Save</button>
-		<button class="btn btn-danger" ng-click="handleBack()">Back</button>
+		<div class="container-btn text-center">
+			<button class="btn btn-primary" ng-click="handleSave()">Save</button>
+			<button class="btn btn-danger" ng-click="handleBack()">Back</button>
+		</div>
 	</div>
 </div>
 
