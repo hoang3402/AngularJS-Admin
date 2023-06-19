@@ -11,12 +11,13 @@ export function createMovie() {
             // Get genres
             $http({
                 method: 'GET',
-                url: `${DOMAIN}Genre`
-            }).then((res) => {
-                $scope.genres = res.data;
-            }, (res) => {
-
-            })
+                url: `${DOMAIN}Genre`,
+            }).then(
+                (res) => {
+                    $scope.genres = res.data;
+                },
+                (res) => {}
+            );
 
             $scope.handleBack = () => {
                 var currentUrl = window.location.href;
@@ -26,21 +27,28 @@ export function createMovie() {
                 window.location.href = newUrl;
             };
 
-            $('#type').on("select2:select", function (e) {
+            $('#type').on('select2:select', function (e) {
                 var selectedOption = e.params.data;
                 var optionValue = selectedOption.id;
-                var item = $scope.genres.find(i => { return i.name == optionValue })
-                $scope.currentGenres.push(item.id)
+                var item = $scope.genres.find((i) => {
+                    return i.name == optionValue;
+                });
+                $scope.currentGenres.push(item.id);
             });
 
             $('#type').on('select2:unselect', function (e) {
                 var unselectedOption = e.params.data;
                 var unselectedOptionId = unselectedOption.id;
-                var item = $scope.genres.find(i => { return i.name == unselectedOptionId })
-                $scope.currentGenres.splice($scope.currentGenres.indexOf(item.id), 1)
+                var item = $scope.genres.find((i) => {
+                    return i.name == unselectedOptionId;
+                });
+                $scope.currentGenres.splice(
+                    $scope.currentGenres.indexOf(item.id),
+                    1
+                );
             });
 
-            $('#status').on("select2:select", function (e) {
+            $('#status').on('select2:select', function (e) {
                 var selectedOption = e.params.data;
                 var optionValue = selectedOption.id;
                 if (optionValue === 'Complete') {
@@ -49,6 +57,40 @@ export function createMovie() {
                     $scope.status = false;
                 }
             });
+
+            var hidenItem = $('#image-upload');
+            hidenItem.on('change', (event) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    var formData = new FormData();
+                    formData.append('image', file);
+                    console.log(`hidenItem.on ~ formData:`, formData);
+                    $http({
+                        method: 'POST',
+                        url: 'https://api.imgur.com/3/upload',
+                        headers: {
+                            Authorization: 'Client-ID be25755b1f2af40',
+                            'Content-Type': undefined,
+                        },
+                        data: formData,
+                    }).then((res) => {
+                        console.log(`res.data:`, res.data);
+                        $scope.imageurl = res.data.data.link;
+                    });
+
+                    $scope.$apply(() => {
+                        $scope.imageurl = null;
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            $scope.handleUploadImg = () => {
+                hidenItem.click();
+            };
         },
     };
 }
@@ -220,7 +262,8 @@ export function datatable($routeParams) {
                             );
                         tr.attr(
                             'onclick',
-                            `handleTdClick('${$scope.nameTable
+                            `handleTdClick('${
+                                $scope.nameTable
                             }',${JSON.stringify(item)})`
                         );
                         tr.append(td);
@@ -251,7 +294,7 @@ export function datatable($routeParams) {
                     .appendTo('#example1_wrapper .col-md-6:eq(0)');
             };
 
-            $scope.handleCreate = () => { };
+            $scope.handleCreate = () => {};
         },
     };
 }
