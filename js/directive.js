@@ -91,6 +91,24 @@ export function createMovie() {
             $scope.handleUploadImg = () => {
                 hidenItem.click();
             };
+
+            $scope.handleSave = () => {
+                var data = {
+                    title: $scope.title,
+                    description: $scope.description,
+                    imageurl: $scope.imageurl,
+                    genres: $scope.currentGenres,
+                    status: $scope.status,
+                };
+                $http({
+                    method: 'Post',
+                    url: `${DOMAIN}CreateMovie`,
+                    data: $.param(data),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                });
+            };
         },
     };
 }
