@@ -4,8 +4,20 @@ export function createMovie() {
     return {
         restrict: 'E',
         templateUrl: './table/editAll.html',
-        controller: ($scope) => {
+        controller: ($scope, $http) => {
             console.log('load createMovie');
+            $scope.currentGenres = [];
+            $scope.status = false;
+            // Get genres
+            $http({
+                method: 'GET',
+                url: `${DOMAIN}Genre`,
+            }).then(
+                (res) => {
+                    $scope.genres = res.data;
+                },
+                (res) => {}
+            );
 
             $scope.handleBack = () => {
                 var currentUrl = window.location.href;
@@ -13,6 +25,89 @@ export function createMovie() {
                 var newUrl = parts[0] + `#!index`;
 
                 window.location.href = newUrl;
+            };
+
+            $('#type').on('select2:select', function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                var item = $scope.genres.find((i) => {
+                    return i.name == optionValue;
+                });
+                $scope.currentGenres.push(item.id);
+            });
+
+            $('#type').on('select2:unselect', function (e) {
+                var unselectedOption = e.params.data;
+                var unselectedOptionId = unselectedOption.id;
+                var item = $scope.genres.find((i) => {
+                    return i.name == unselectedOptionId;
+                });
+                $scope.currentGenres.splice(
+                    $scope.currentGenres.indexOf(item.id),
+                    1
+                );
+            });
+
+            $('#status').on('select2:select', function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                if (optionValue === 'Complete') {
+                    $scope.status = true;
+                } else {
+                    $scope.status = false;
+                }
+            });
+
+            var hidenItem = $('#image-upload');
+            hidenItem.on('change', (event) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    var formData = new FormData();
+                    formData.append('image', file);
+                    console.log(`hidenItem.on ~ formData:`, formData);
+                    $http({
+                        method: 'POST',
+                        url: 'https://api.imgur.com/3/upload',
+                        headers: {
+                            Authorization: 'Client-ID be25755b1f2af40',
+                            'Content-Type': undefined,
+                        },
+                        data: formData,
+                    }).then((res) => {
+                        console.log(`res.data:`, res.data);
+                        $scope.imageurl = res.data.data.link;
+                    });
+
+                    $scope.$apply(() => {
+                        $scope.imageurl = null;
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            $scope.handleUploadImg = () => {
+                hidenItem.click();
+            };
+
+            $scope.handleSave = () => {
+                var data = {
+                    title: $scope.title,
+                    description: $scope.description,
+                    imageurl: $scope.imageurl,
+                    genres: $scope.currentGenres,
+                    status: $scope.status,
+                };
+                $http({
+                    method: 'Post',
+                    url: `${DOMAIN}CreateMovie`,
+                    data: $.param(data),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                });
             };
         },
     };
