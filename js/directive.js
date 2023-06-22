@@ -132,13 +132,15 @@ export function editMovie() {
 
             $http({
                 method: 'GET',
-                url: `${DOMAIN}EditMovie/${$scope.animeId}`,
+                url: `${DOMAIN}GetMovie/${$scope.animeId}`,
             }).then((res) => {
                 var data = res.data[0];
+                $scope.id = data.id;
                 $scope.title = data.title;
                 $scope.description = data.description;
                 $scope.imageurl = data.cover_image_url;
                 $scope.movieGenres = data.genres;
+                $scope.status = data.status;
                 $("#status option[value='" + data.status + "']").attr(
                     'selected',
                     'selected'
@@ -193,6 +195,64 @@ export function editMovie() {
 
             $scope.handleUploadImg = () => {
                 hidenItem.click();
+            };
+
+            $('#type').on('select2:select', function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                var item = $scope.genres.find((i) => {
+                    return i.name == optionValue;
+                });
+                $scope.movieGenres.push({ id: item.id, name: item.name });
+            });
+
+            $('#type').on('select2:unselect', function (e) {
+                var unselectedOption = e.params.data;
+                var unselectedOptionId = unselectedOption.id;
+
+                var item = $scope.genres.find((i) => {
+                    return i.name == unselectedOptionId;
+                });
+
+                var index = $scope.movieGenres.findIndex((e) => {
+                    return e.id == item.id;
+                });
+
+                if (index !== -1) {
+                    $scope.movieGenres.splice(index, 1);
+                }
+            });
+
+            $('#status').on('select2:select', function (e) {
+                var selectedOption = e.params.data;
+                var optionValue = selectedOption.id;
+                if (optionValue === '0') {
+                    $scope.status = '0';
+                } else {
+                    $scope.status = '1';
+                }
+            });
+
+            $scope.handleSave = () => {
+                var data = {
+                    id: $scope.id,
+                    title: $scope.title,
+                    description: $scope.description,
+                    imageurl: $scope.imageurl,
+                    genres: $scope.movieGenres,
+                    status: $scope.status,
+                };
+                data = $.param(data);
+                $http({
+                    method: 'POST',
+                    url: `${DOMAIN}EditMovie`,
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }).then((res) => {
+                    console.log(res);
+                });
             };
         },
     };
