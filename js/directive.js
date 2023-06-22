@@ -3,7 +3,7 @@ import { DOMAIN } from './main';
 export function createMovie() {
     return {
         restrict: 'E',
-        templateUrl: './table/editAll.html',
+        templateUrl: './table/createMovie.html',
         controller: ($scope, $http) => {
             console.log('load createMovie');
             $scope.currentGenres = [];
@@ -109,6 +109,58 @@ export function createMovie() {
                     },
                 });
             };
+        },
+    };
+}
+
+export function editMovie() {
+    return {
+        restrict: 'E',
+        templateUrl: './table/editMovie.html',
+        controller: ($scope, $routeParams, $http, $timeout) => {
+            $scope.animeId = $routeParams.id;
+
+            // SETUP DATA
+            $('.select2').select2();
+
+            $http({
+                method: 'GET',
+                url: `${DOMAIN}Genre`,
+            }).then((res) => {
+                $scope.genres = res.data;
+            });
+
+            $http({
+                method: 'GET',
+                url: `${DOMAIN}EditMovie/${$scope.animeId}`,
+            }).then((res) => {
+                var data = res.data[0];
+                console.log(`editMovie ~ data:`, data);
+                $scope.title = data.title;
+                $scope.description = data.description;
+                $scope.imageurl = data.cover_image_url;
+                $scope.movieGenres = data.genres;
+                $("#status option[value='" + data.status + "']").attr(
+                    'selected',
+                    'selected'
+                );
+            });
+
+            $scope.isGenreSelected = function (item) {
+                if ($scope.movieGenres === undefined) return;
+                return $scope.movieGenres.find((i) => {
+                    return i.id === item.id;
+                });
+            };
+
+            // Kiểm tra khi $scope.movieGenres không còn là mảng rỗng
+            $scope.$watch('movieGenres', function (newValue, oldValue) {
+                if (newValue) {
+                    $timeout(function () {
+                        $('.select2').select2();
+                    });
+                }
+            });
         },
     };
 }
@@ -311,8 +363,6 @@ export function datatable($routeParams) {
                     .container()
                     .appendTo('#example1_wrapper .col-md-6:eq(0)');
             };
-
-            $scope.handleCreate = () => {};
         },
     };
 }

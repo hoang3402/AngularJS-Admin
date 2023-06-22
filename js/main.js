@@ -30,13 +30,9 @@ app.run(($rootScope) => {
 });
 
 app.directive('navbar', directive.navbar);
-
 app.directive('sideBar', directive.sideBar);
-
 app.directive('datatable', directive.datatable);
-
 app.directive('create', directive.create);
-
 app.directive('edittable', directive.editTable);
-
 app.directive('createMovie', directive.createMovie);
+app.directive('editMovie', directive.editMovie);

@@ -7,7 +7,7 @@
   "license": "ISC",
   "scripts": {
     "build": "webpack --mode=production",
-    "dev": "concurrently --kill-others \"http-server\" \"webpack --mode=development --watch\""
+    "dev": "webpack --mode=development --watch"
   },
   "dependencies": {
     "angular": "^1.8.3",
