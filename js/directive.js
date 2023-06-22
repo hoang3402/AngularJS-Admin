@@ -135,7 +135,6 @@ export function editMovie() {
                 url: `${DOMAIN}EditMovie/${$scope.animeId}`,
             }).then((res) => {
                 var data = res.data[0];
-                console.log(`editMovie ~ data:`, data);
                 $scope.title = data.title;
                 $scope.description = data.description;
                 $scope.imageurl = data.cover_image_url;
@@ -161,6 +160,40 @@ export function editMovie() {
                     });
                 }
             });
+
+            var hidenItem = $('#image-upload');
+            hidenItem.on('change', (event) => {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    var formData = new FormData();
+                    formData.append('image', file);
+                    console.log(`hidenItem.on ~ formData:`, formData);
+                    $http({
+                        method: 'POST',
+                        url: 'https://api.imgur.com/3/upload',
+                        headers: {
+                            Authorization: 'Client-ID be25755b1f2af40',
+                            'Content-Type': undefined,
+                        },
+                        data: formData,
+                    }).then((res) => {
+                        console.log(`res.data:`, res.data);
+                        $scope.imageurl = res.data.data.link;
+                    });
+
+                    $scope.$apply(() => {
+                        $scope.imageurl = null;
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            $scope.handleUploadImg = () => {
+                hidenItem.click();
+            };
         },
     };
 }
