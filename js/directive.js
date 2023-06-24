@@ -250,9 +250,30 @@ export function editMovie() {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                }).then((res) => {
-                    console.log(res);
-                });
+                })
+                    .then((res) => {
+                        console.log(res);
+                        $rootScope.Success();
+                    })
+                    .then((res) => {
+                        console.log(res);
+                        $rootScope.Failed();
+                    });
+            };
+
+            $scope.handleBack = () => {
+                $http({
+                    method: 'POST',
+                    url: `${DOMAIN}deleteAnime/${$scope.id}`,
+                })
+                    .then(function (response) {
+                        console.log(`response:`, response);
+                        $scope.back();
+                        $rootScope.Success();
+                    })
+                    .catch(function (error) {
+                        $rootScope.Failed();
+                    });
             };
         },
     };
