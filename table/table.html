@@ -92,11 +92,7 @@
     handleTdClick = function (name, item) {
         console.log(`Edit on ${name} with ${item.id}`);
         var currentUrl = window.location.href;
-        if (name === 'Anime') {
-            var newUrl = currentUrl.replace(`/table/${name}`, `/edit-movie/${item.id}`);
-        } else {
-            var newUrl = currentUrl.replace(`/${name}`, `/${name}/${item.id}`);
-        }
+        var newUrl = currentUrl.replace(`/${name}`, `/${name}/${item.id}`);
         window.location.href = newUrl;
     };
 </script>
