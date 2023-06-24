@@ -10,7 +10,7 @@ export function editTable() {
             $scope.id = $routeParams.id;
             $http({
                 method: 'GET',
-                url: `${DOMAIN}${$scope.nameTable}/${$scope.id}`,
+                url: `${DOMAIN}api/${$scope.nameTable}/${$scope.id}`,
             }).then((res) => {
                 $scope.items = []; // Khởi tạo một mảng rỗng để lưu trữ các mục
 
@@ -29,15 +29,10 @@ export function editTable() {
                     data[key] = value;
                 }
 
-                var dataEncode = $.param(data);
-
                 $http({
-                    method: 'POST',
-                    url: `${DOMAIN}${$scope.nameTable}/${$scope.id}`,
-                    data: dataEncode,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
+                    method: 'PUT',
+                    url: `${DOMAIN}api/${$scope.nameTable}/${$scope.id}`,
+                    data: data,
                 })
                     .then(function (response) {
                         console.log(`response:`, response);
@@ -50,8 +45,8 @@ export function editTable() {
 
             $scope.handleDelete = () => {
                 $http({
-                    method: 'POST',
-                    url: `${DOMAIN}${$scope.nameTable}/${$scope.id}`,
+                    method: 'DELETE',
+                    url: `${DOMAIN}api/${$scope.nameTable}/${$scope.id}`,
                 })
                     .then(function (response) {
                         console.log(`response:`, response);
@@ -83,13 +78,12 @@ export function create() {
 
             $http({
                 method: 'GET',
-                url: `${DOMAIN}${$scope.nameTable}/1`,
+                url: `${DOMAIN}api/${$scope.nameTable}/1`,
             }).then((res) => {
                 $scope.items = [];
                 angular.forEach(res.data[0], function (value, key) {
                     $scope.items.push({ key: key, value: '' });
                 });
-                $scope.items.shift();
             });
 
             $scope.handleSave = () => {
@@ -101,15 +95,10 @@ export function create() {
                     data[key] = value;
                 }
 
-                var dataEncode = $.param(data);
-
                 $http({
                     method: 'POST',
-                    url: `${DOMAIN}add${$scope.nameTable}`,
-                    data: dataEncode,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
+                    url: `${DOMAIN}api/${$scope.nameTable}`,
+                    data: data,
                 })
                     .then(function (response) {
                         console.log(`response:`, response);
